@@ -7,11 +7,5 @@
 }
 
 .star.active {
-  color: blueviolet;
-  font-weight: 600;
-}
-
-.star.hover {
-  color: orange;
-  font-weight: 600;
+  color: goldenrod;
 }

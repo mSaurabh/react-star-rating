@@ -1,19 +1,26 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./star-rating.style.css";
 
-const StarRating = () => {
-  const maxRating = 5;
+const StarRating = ({ maxRating = 5, onChange = () => {} }) => {
   const [currentRating, setCurrentRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
 
-  const setCurrentRatingHandler = (ratingValue) =>
-    ratingValue === currentRating
-      ? setCurrentRating(0)
-      : setCurrentRating(ratingValue);
+  //NOTE - Improves performance by caching this logic based on currentRating,
+  //       so this function doesn't re-render on change of currentRating.
+  const setCurrentRatingHandler = useCallback(
+    (ratingValue) =>
+      ratingValue === currentRating
+        ? setCurrentRating(0)
+        : setCurrentRating(ratingValue),
+    [currentRating]
+  );
+
+  useEffect(() => {
+    onChange(currentRating);
+  }, [currentRating, onChange]);
 
   return (
     <div className="container">
-      Current Rating : {currentRating}
       {[...Array(maxRating)].map((_, idx) => {
         const ratingValue = idx + 1;
         return (
@@ -26,7 +33,7 @@ const StarRating = () => {
               (hoveredRating || currentRating) >= ratingValue ? "active" : ""
             }`}
           >
-            {idx + 1}
+            &#9733;
           </p>
         );
       })}
