@@ -1,2 +1,3 @@
-# react-star-rating
-A simple start rating component using React.
+# React Star Rating
+
+A simple component created using React.
